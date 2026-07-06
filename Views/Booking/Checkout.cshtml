@@ -1,0 +1,76 @@
+﻿@{
+    var f = ViewBag.Flight as AirportSystem.Models.Flight;
+    ViewData["Title"] = "Оформление";
+}
+
+<div style="max-width: 1000px; margin: 0 auto; animation: fadeIn 0.8s ease-out;">
+    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: start;">
+
+        <!-- ФОРМА ВВОДА -->
+        <div>
+            <h1 style="margin-bottom: 40px; font-size: 3.5rem; font-weight: 900; letter-spacing: -3px;">Оформление</h1>
+
+            @if (ViewBag.Error != null)
+            {
+                <div style="background: #ff3b30; color: white; padding: 20px; border-radius: 20px; margin-bottom: 30px; font-weight: 700; box-shadow: 0 10px 20px rgba(255, 59, 48, 0.2);">
+                    ⚠️ @ViewBag.Error
+                </div>
+            }
+
+            <div class="card-premier" style="background: white; padding: 45px;">
+                <form asp-action="Finalize" method="post">
+                    <input type="hidden" name="flightId" value="@f.Id" />
+
+                    <div style="margin-bottom: 25px;">
+                        <label class="label">Полное имя (как в паспорте)</label>
+                        <input type="text" name="fullName" placeholder="IVANOV IVAN" required />
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label class="label">Номер паспорта</label>
+                        <input type="text" name="passport" placeholder="MP 0000000" required />
+                    </div>
+
+                    <div style="margin-bottom: 35px;">
+                        <label class="label">Класс перелета</label>
+                        <select name="tClass" style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-7.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 20px top 50%; background-size: 12px auto;">
+                            <option value="Economy">ECONOMY CLASS</option>
+                            <option value="Business">BUSINESS CLASS (+450.00 BYN)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-save" style="width:100%; height: 80px; font-size: 1.1rem;">
+                        ПОДТВЕРДИТЬ БРОНИРОВАНИЕ
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- РЕЗЮМЕ ЗАКАЗА (СИНЯЯ КАРТОЧКА) -->
+        <div style="position: sticky; top: 40px;">
+            <div class="card-premier" style="background: var(--primary); color: white; border: none; padding: 50px; box-shadow: 0 30px 60px rgba(0, 122, 255, 0.3);">
+                <div style="font-weight: 800; opacity: 0.6; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px;">Резюме заказа</div>
+                <h2 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin-bottom: 40px;">@f.Destination.ToUpper()</h2>
+
+                <div style="display: grid; gap: 20px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px;">
+                        <span style="font-weight: 600; opacity: 0.8;">Борт</span>
+                        <span style="font-weight: 800; font-family: 'JetBrains Mono';">@f.FlightNumber</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px;">
+                        <span style="font-weight: 600; opacity: 0.8;">Вылет</span>
+                        <span style="font-weight: 800;">@f.ScheduledDeparture.ToString("dd MMM, HH:mm")</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px;">
+                        <span style="font-weight: 900; font-size: 1.5rem; letter-spacing: -1px;">ИТОГО</span>
+                        <div style="text-align: right;">
+                            <div style="font-size: 2.5rem; font-weight: 900; line-height: 1;">@f.BasePrice.ToString("N2")</div>
+                            <div style="font-size: 1rem; font-weight: 800; opacity: 0.8; margin-top: 5px;">BYN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

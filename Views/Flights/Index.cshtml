@@ -1,0 +1,53 @@
+﻿@model IEnumerable<AirportSystem.Models.Flight>
+@{
+    ViewData["Title"] = "Диспетчерская";
+}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px;">
+    <div>
+        <p style="color: #FF9500; font-weight: 800; letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase;">Flight Control Center</p>
+        <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -4px; margin: 0;">Диспетчерская</h1>
+    </div>
+    <a asp-action="Create" class="btn-save" style="background: #1d1d1f; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+        + Добавить новый рейс
+    </a>
+</div>
+
+<div class="card-premier" style="padding: 0; overflow: hidden; background: white; border-radius: 40px;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #FAFAFA; border-bottom: 1px solid var(--border);">
+                <th style="padding: 20px 35px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Борт</th>
+                <th style="padding: 20px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Назначение</th>
+                <th style="padding: 20px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Вылет</th>
+                <th style="padding: 20px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Гейт</th>
+                <th style="padding: 20px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Статус</th>
+                <th style="padding: 20px 35px; text-align: right; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in Model)
+            {
+                <tr style="border-bottom: 1px solid #f2f2f7; transition: 0.3s;">
+                    <td style="padding: 22px 35px; font-family: 'JetBrains Mono'; font-weight: 800; color: var(--primary); font-size: 1rem;">@f.FlightNumber</td>
+                    <td style="padding: 20px; font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px;">@f.Destination.ToUpper()</td>
+                    <td style="padding: 20px; font-weight: 700; color: #444;">@f.ScheduledDeparture.ToString("HH:mm")</td>
+                    <td style="padding: 20px;"><span style="background: #F2F2F7; padding: 8px 16px; border-radius: 12px; font-weight: 800; font-size: 0.8rem; color: #1d1d1f;">@f.Gate</span></td>
+                    <td style="padding: 20px;">
+                        @{
+                            var col = f.Status == AirportSystem.Models.FlightStatus.Delayed ? "#ff3b30" : "#34c759";
+                        }
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 7px; height: 7px; border-radius: 50%; background: @col;"></div>
+                            <span style="color: @col; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px;">@f.Status.ToString().ToUpper()</span>
+                        </div>
+                    </td>
+                    <td style="padding: 22px 35px; text-align: right;">
+                        <a asp-action="Edit" asp-route-id="@f.Id" class="action-link link-edit" style="margin-right: 8px;">ИЗМЕНИТЬ</a>
+                        <a asp-action="Delete" asp-route-id="@f.Id" class="action-link link-delete" onclick="return confirm('Удалить рейс из системы?')">УДАЛИТЬ</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

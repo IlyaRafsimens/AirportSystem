@@ -1,0 +1,67 @@
+﻿@model AirportSystem.Models.Flight
+@{
+    ViewData["Title"] = "Новый рейс";
+}
+
+<div style="max-width: 900px; margin: 0 auto;">
+    <header style="margin-bottom: 50px;">
+        <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin-bottom: 10px;">📦 Создание рейса</h1>
+        <p style="color: var(--text-dim); font-weight: 600; font-size: 1.1rem;">Введите параметры нового воздушного судна и маршрута</p>
+    </header>
+
+    <div class="card-premier" style="background: white; padding: 50px; border-radius: 50px;">
+        <form asp-action="Create" method="post">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <!-- Левая колонка -->
+                <div style="display: grid; gap: 30px;">
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Номер рейса</label>
+                        <input asp-for="FlightNumber" placeholder="SU-100" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1.1rem; outline:none;" />
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Авиакомпания</label>
+                        <input asp-for="Airline" placeholder="Aeroflot" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1.1rem; outline:none;" />
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Тип самолета</label>
+                        <input asp-for="AircraftType" placeholder="Boeing 777" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1.1rem; outline:none;" />
+                    </div>
+                </div>
+
+                <!-- Правая колонка -->
+                <div style="display: grid; gap: 30px;">
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Назначение (Город)</label>
+                        <input asp-for="Destination" placeholder="Dubai" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1.1rem; outline:none;" />
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Время вылета</label>
+                        <input asp-for="ScheduledDeparture" type="datetime-local" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1.1rem; outline:none;" />
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Гейт (Выход)</label>
+                        <input asp-for="Gate" placeholder="A-01" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1.1rem; outline:none;" />
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin: 40px 0; height: 1px; background: #f2f2f7;"></div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Статус</label>
+                    <select asp-for="Status" asp-items="Html.GetEnumSelectList<AirportSystem.Models.FlightStatus>()" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1rem; outline:none; appearance:none;"></select>
+                </div>
+                <div>
+                    <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; margin-left:15px;">Вместимость</label>
+                    <input asp-for="MaxSeats" type="number" style="width:100%; padding:20px; border-radius:20px; border:1px solid #E5E5E7; background:#F5F5F7; font-weight:700; font-size:1.1rem; outline:none;" />
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 20px; margin-top: 50px;">
+                <button type="submit" class="btn-save" style="flex: 2;">СОХРАНИТЬ РЕЙС В СИСТЕМЕ</button>
+                <a asp-action="Index" class="btn-cancel" style="flex: 1; text-align: center; display: flex; align-items: center; justify-content: center;">ОТМЕНА</a>
+            </div>
+        </form>
+    </div>
+</div>

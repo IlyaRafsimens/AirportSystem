@@ -1,0 +1,56 @@
+﻿@model IEnumerable<AirportSystem.Models.Baggage>
+@{
+    ViewData["Title"] = "Реестр багажа";
+}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+    <div>
+        <p style="color: var(--primary); font-weight: 800; letter-spacing: 2px; font-size: 0.8rem;">LOGISTICS CONTROL</p>
+        <h1 style="font-size: 3rem; font-weight: 900; letter-spacing: -3px; margin: 0;">Baggage Assets</h1>
+    </div>
+</div>
+
+<div class="card-premier" style="padding: 0; overflow: hidden; background: white;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #f8f9fa; border-bottom: 1px solid var(--border);">
+                <th style="padding: 20px 30px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Tag Number</th>
+                <th style="padding: 20px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Weight</th>
+                <th style="padding: 20px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Passenger</th>
+                <th style="padding: 20px; text-align: left; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Flight Ref</th>
+                <th style="padding: 20px 30px; text-align: right; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Handling Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="border-bottom: 1px solid #f0f0f0;">
+                    <td style="padding: 25px 30px; font-family: 'JetBrains Mono'; font-weight: 800; color: var(--primary);">
+                        @item.TagNumber
+                    </td>
+                    <td style="padding: 20px;">
+                        <div style="font-size: 1.2rem; font-weight: 900; color: @(item.Weight > 23 ? "#ff3b30" : "var(--text-main)");">
+                            @item.Weight кг
+                        </div>
+                    </td>
+                    <td style="padding: 20px;">
+                        <div style="font-weight: 800;">@item.Ticket.Passenger.FullName.ToUpper()</div>
+                    </td>
+                    <td style="padding: 20px;">
+                        <div style="font-weight: 700; color: var(--text-dim);">@item.Ticket.Flight.FlightNumber</div>
+                    </td>
+                    <td style="padding: 25px 30px; text-align: right;">
+                        @if (item.Weight > 23)
+                        {
+                            <span style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; padding: 8px 15px; border-radius: 12px; font-weight: 900; font-size: 0.7rem; border: 1px solid rgba(255, 59, 48, 0.2);">⚠️ OVERWEIGHT PAID</span>
+                        }
+                        else
+                        {
+                            <span style="background: rgba(52, 199, 89, 0.1); color: #34c759; padding: 8px 15px; border-radius: 12px; font-weight: 900; font-size: 0.7rem; border: 1px solid rgba(52, 199, 89, 0.2);">✅ NORMAL RANGE</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

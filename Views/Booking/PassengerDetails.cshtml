@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Оформление";
+}
+
+<div style="max-width: 600px; margin: 0 auto;">
+    <h1 style="font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 40px;">👤 Оформление билета</h1>
+
+    <div class="card" style="padding: 40px; border-radius: 40px;">
+        <form asp-action="Purchase" method="post">
+            <input type="hidden" name="flightId" value="@ViewBag.FlightId" />
+            <input type="hidden" name="tClass" value="@ViewBag.Class" />
+
+            <div style="margin-bottom: 25px;">
+                <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); margin:0 0 10px 15px;">Полное имя пассажира</label>
+                <input type="text" name="fullName" class="card" style="width:100%; padding:18px; background:var(--bg-app); border:0; border-radius:20px; font-weight:700;" placeholder="ИВАНОВ ИВАН ИВАНОВИЧ" required />
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label style="display:block; font-weight:800; font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); margin:0 0 10px 15px;">Паспортные данные</label>
+                <input type="text" name="passport" class="card" style="width:100%; padding:18px; background:var(--bg-app); border:0; border-radius:20px; font-weight:700;" placeholder="СЕРИЯ И НОМЕР" required />
+            </div>
+
+            <div style="padding: 20px; background: var(--primary-glow); border-radius: 20px; margin-bottom: 30px; text-align: center;">
+                <span style="color: var(--primary); font-weight: 800;">ВЫБРАН КЛАСС: @ViewBag.Class</span>
+            </div>
+
+            <button type="submit" class="card" style="width:100%; background:var(--primary); color:#fff; border:0; padding:20px; font-weight:800; cursor:pointer; border-radius:22px;">ПОДТВЕРДИТЬ И ОПЛАТИТЬ</button>
+        </form>
+    </div>
+</div>

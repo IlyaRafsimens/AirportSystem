@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<div style="padding: 20px; background: rgba(255,255,255,0.5); border-radius: 25px; border: 1px solid var(--border);">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div style="margin-bottom: 15px;">
+            <small style="color: var(--text-dim); display: block; font-weight: 800; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px;">IDENTIFIED AS</small>
+            <span style="font-weight: 800; font-size: 0.8rem; color: var(--text-main);">@User.Identity.Name</span>
+        </div>
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            <button type="submit" style="width:100%; padding:12px; background:#fff; border:1px solid #ff3b30; color:#ff3b30; border-radius:12px; font-weight:800; cursor:pointer; font-size:0.75rem;">LOGOUT</button>
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login" style="display:block; text-align:center; background:var(--primary); color:#fff; padding:12px; border-radius:12px; font-weight:800; font-size:0.8rem; margin-bottom:10px;">ВХОД</a>
+        <a asp-controller="Account" asp-action="Register" style="display:block; text-align:center; color:var(--primary); font-weight:800; font-size:0.75rem;">РЕГИСТРАЦИЯ</a>
+    }
+</div>  =+

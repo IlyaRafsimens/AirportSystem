@@ -1,0 +1,76 @@
+﻿@model IEnumerable<AirportSystem.Models.Blacklist>
+@{
+    ViewData["Title"] = "Безопасность";
+}
+
+<div style="margin-bottom: 50px;">
+    <p style="color: #ff3b30; font-weight: 800; letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase;">Зона особого контроля</p>
+    <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin: 0;">Стоп-лист пассажиров</h1>
+</div>
+
+<div style="display: grid; gap: 40px;">
+
+    <!-- ФОРМА ДОБАВЛЕНИЯ -->
+    <div class="card-premier" style="background: white; padding: 40px; border-radius: 40px; border: 1px solid var(--border); box-shadow: var(--shadow);">
+        <h3 style="margin-bottom: 30px; font-weight: 800; letter-spacing: -1px;">Внести в базу нарушителей</h3>
+        <form asp-action="AddToBlacklist" method="post" style="display: grid; grid-template-columns: 1fr 1fr 1.5fr auto; gap: 20px; align-items: flex-end;">
+            @Html.AntiForgeryToken()
+            <div>
+                <label style="display:block; font-size:0.7rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; margin-left:15px; margin-bottom:8px;">Серия и номер паспорта</label>
+                <input type="text" name="passport" placeholder="0000 000000" style="width:100%; padding:18px 25px; border-radius:20px; border:1px solid #eee; background:#F5F5F7; font-family:'JetBrains Mono'; font-weight:700; outline:none;" required />
+            </div>
+            <div>
+                <label style="display:block; font-size:0.7rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; margin-left:15px; margin-bottom:8px;">ФИО пассажира</label>
+                <input type="text" name="name" placeholder="ФАМИЛИЯ ИМЯ ОТЧЕСТВО" style="width:100%; padding:18px 25px; border-radius:20px; border:1px solid #eee; background:#F5F5F7; font-weight:700; outline:none;" required />
+            </div>
+            <div>
+                <label style="display:block; font-size:0.7rem; font-weight:800; color:var(--text-dim); text-transform:uppercase; margin-left:15px; margin-bottom:8px;">Причина ограничения</label>
+                <input type="text" name="reason" placeholder="Нарушение правил поведения..." style="width:100%; padding:18px 25px; border-radius:20px; border:1px solid #eee; background:#F5F5F7; font-weight:600; outline:none;" />
+            </div>
+            <button type="submit" style="background:#ff3b30; color:white; border:none; padding:18px 35px; border-radius:20px; font-weight:800; font-size:0.8rem; cursor:pointer; box-shadow: 0 10px 25px rgba(255, 59, 48, 0.3); transition: 0.3s;">
+                БЛОКИРОВАТЬ
+            </button>
+        </form>
+    </div>
+
+    <!-- ТАБЛИЦА -->
+    <div class="card-premier" style="padding: 0; overflow: hidden; background: white; border-radius: 40px; border: 1px solid var(--border); box-shadow: var(--shadow);">
+        <div style="padding: 25px 35px; border-bottom: 1px solid #f0f0f0;">
+            <h3 style="margin: 0; font-weight: 800; font-size: 1.2rem;">База нежелательных лиц</h3>
+        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #FAFAFA; border-bottom: 1px solid #eee;">
+                    <th style="padding: 20px 35px; text-align: left; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Паспорт</th>
+                    <th style="padding: 20px; text-align: left; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">ФИО</th>
+                    <th style="padding: 20px; text-align: left; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Причина</th>
+                    <th style="padding: 20px; text-align: left; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Дата внесения</th>
+                    <th style="padding: 20px 35px; text-align: right; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" style="padding: 60px; text-align: center; color: var(--text-dim); font-weight: 600; font-size: 1.1rem;">Черный список пуст. Угроз не обнаружено.</td>
+                    </tr>
+                }
+                @foreach (var item in Model)
+                {
+                    <tr style="border-bottom: 1px solid #f8f8f8; transition: 0.3s;">
+                        <td style="padding: 22px 35px; font-family: 'JetBrains Mono'; font-weight: 800; color: #ff3b30; font-size: 1rem;">@item.PassportNumber</td>
+                        <td style="padding: 20px; font-weight: 800; color: var(--text-main);">@item.FullName.ToUpper()</td>
+                        <td style="padding: 20px; font-weight: 600; color: #444; font-size: 0.9rem;">@item.Reason</td>
+                        <td style="padding: 20px; font-weight: 700; color: var(--text-dim); font-size: 0.85rem;">@item.AddedDate.ToString("dd.MM.yyyy")</td>
+                        <td style="padding: 22px 35px; text-align: right;">
+                            <a asp-action="RemoveFromBlacklist" asp-route-id="@item.Id"
+                               style="color: var(--primary); font-weight: 800; font-size: 0.75rem; text-decoration: none; background: #f0f7ff; padding: 10px 20px; border-radius: 14px; transition: 0.2s;">
+                                РАЗБЛОКИРОВАТЬ
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

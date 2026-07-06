@@ -1,0 +1,308 @@
+/* --- œŒƒ Àﬁ◊≈Õ»≈ œ–≈Ã»¿À‹Õ€’ ÿ–»‘“Œ¬ --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=JetBrains+Mono:wght@700&display=swap');
+
+:root {
+    --bg: #F0F4F8;
+    --primary: #007AFF;
+    --accent: #5AC8FA;
+    --white: #ffffff;
+    --text-main: #1D1D1F;
+    --text-dim: #86868B;
+    --glass: rgba(255, 255, 255, 0.8);
+    --border: rgba(255, 255, 255, 0.5);
+    --shadow: 0 20px 40px rgba(0,0,0,0.05);
+    --primary-glow: rgba(0, 122, 255, 0.2);
+}
+
+/* --- —¡–Œ— —“¿Õƒ¿–“ÕŒ√Œ Ã”—Œ–¿ --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+button, input, select {
+    font-family: inherit;
+}
+
+/* --- √À¿¬Õ€… ‘ŒÕ — ¿Õ»Ã¿÷»≈… --- */
+body {
+    background: linear-gradient(-45deg, #E0EAFC, #CFDEF3, #eef2f3, #ffffff);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--text-main);
+    font-family: 'Outfit', sans-serif;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* --- —¿…ƒ¡¿– (Ã≈Õﬁ —À≈¬¿) --- */
+aside {
+    width: 300px;
+    background: var(--glass);
+    backdrop-filter: blur(50px);
+    border-right: 1px solid var(--border);
+    padding: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.brand {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary);
+    letter-spacing: -2px;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+    nav a {
+        padding: 18px 25px;
+        border-radius: 22px;
+        color: var(--text-dim);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        nav a:hover, nav a.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+/* --- Œ—ÕŒ¬Õ¿ﬂ Œ¡À¿—“‹ --- */
+main {
+    flex: 1;
+    padding: 60px 80px;
+    overflow-y: auto;
+}
+
+h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: -4px;
+    margin-bottom: 40px;
+    color: var(--text-main);
+}
+
+/* ---  ¿–“Œ◊ » (BENTO STYLE) --- */
+.card-premier {
+    background: var(--white);
+    border-radius: 40px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+    .card-premier:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 40px 80px rgba(0, 122, 255, 0.1);
+    }
+
+/* --- “¿¡À»÷€ --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    padding: 20px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--bg);
+}
+
+td {
+    padding: 20px;
+    border-bottom: 1px solid #f2f2f7;
+    font-weight: 600;
+}
+
+/* ---  ÕŒœ » (APPLE EXECUTIVE STYLE) --- */
+
+/*  ÌÓÔÍ‡ "—Óı‡ÌËÚ¸" / "ŒÒÌÓ‚Ì‡ˇ" */
+.btn-save {
+    background: var(--primary);
+    color: white !important;
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3);
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-save:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(0, 122, 255, 0.4);
+        filter: brightness(1.1);
+    }
+
+    .btn-save:active {
+        transform: translateY(0);
+    }
+
+/*  ÌÓÔÍ‡ "ŒÚÏÂÌ‡" / "Õ‡Á‡‰" */
+.btn-cancel {
+    background: #F2F2F7;
+    color: var(--text-dim) !important;
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-cancel:hover {
+        background: #E5E5EA;
+        color: var(--text-main) !important;
+        transform: translateY(-2px);
+    }
+
+/* Ã‡ÎÂÌ¸ÍËÂ ÍÌÓÔÍË ‰ÂÈÒÚ‚ËÈ ‚ Ú‡·ÎËˆÂ */
+.action-link {
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    transition: 0.2s;
+    display: inline-block;
+}
+
+.link-edit {
+    background: #f0f7ff;
+    color: var(--primary) !important;
+}
+
+.link-delete {
+    background: #fff5f5;
+    color: #ff3b30 !important;
+}
+
+.action-link:hover {
+    transform: scale(1.05);
+}
+
+/* --- œŒ—¿ƒŒ◊Õ€… “¿ÀŒÕ (BOARDING PASS) --- */
+.ticket-card {
+    background: var(--white);
+    border-radius: 45px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    transition: 0.5s;
+    border: 1px solid var(--border);
+}
+
+.ticket-main {
+    flex: 2;
+    padding: 45px;
+    position: relative;
+}
+
+.ticket-stub {
+    flex: 0.8;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    padding: 45px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.perforation {
+    width: 2px;
+    border-left: 3px dashed #E5E5E7;
+    position: relative;
+    background: white;
+}
+
+    .perforation::before, .perforation::after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: #eef2f3;
+        border-radius: 50%;
+        left: -21px;
+    }
+
+    .perforation::before {
+        top: -20px;
+    }
+
+    .perforation::after {
+        bottom: -20px;
+    }
+
+/* --- ›À≈Ã≈Õ“€ ‘Œ–Ã --- */
+input, select {
+    width: 100%;
+    padding: 18px 25px;
+    border-radius: 20px;
+    border: 1px solid #E5E5E7;
+    background: #F5F5F7;
+    font-weight: 600;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+    input:focus {
+        border-color: var(--primary);
+        background: white;
+        box-shadow: 0 0 0 4px var(--primary-glow);
+    }

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AirportSystem.Models.Flight>
+@{
+    ViewData["Title"] = "Бронирование";
+    var weather = ViewBag.Weather as Dictionary<string, (string icon, string temp, bool deIcing)>;
+    var occupancy = ViewBag.Occupancy as Dictionary<int, int>;
+}
+
+<div style="margin-bottom: 50px;">
+    <p class="label" style="color: var(--primary)">Доступные направления</p>
+    <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin: 0;">Поиск рейсов</h1>
+</div>
+
+<div class="bento-grid" style="grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 30px;">
+    @foreach (var f in Model)
+    {
+        int taken = occupancy[f.Id];
+        int left = f.MaxSeats - taken;
+        double percent = (double)taken / f.MaxSeats * 100;
+
+        <div class="card-premier" style="background: white; padding: 0; overflow: hidden;">
+            <div style="padding: 35px; background: #fafafa; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div class="label" style="margin: 0; color: var(--primary)">@f.FlightNumber</div>
+                    <div style="font-size: 1.8rem; font-weight: 900; letter-spacing: -1px;">@f.Destination</div>
+                </div>
+                @if (weather != null && weather.ContainsKey(f.Destination))
+                {
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.5rem;">@weather[f.Destination].icon</div>
+                        <div style="font-weight: 800; font-size: 0.8rem;">@weather[f.Destination].temp</div>
+                    </div>
+                }
+            </div>
+
+            <div style="padding: 35px;">
+                <!-- ИНДИКАТОР МЕСТ -->
+                <div style="margin-bottom: 30px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 800; margin-bottom: 10px; text-transform: uppercase;">
+                        <span style="color: var(--text-dim)">Заполнение борта</span>
+                        <span style="color: @(left < 10 ? "#ff3b30" : "var(--primary)")">
+                            @(left > 0 ? $"Осталось {left} мест" : "МЕСТ НЕТ")
+                        </span>
+                    </div>
+                    <div style="width: 100%; height: 8px; background: #F0F2F5; border-radius: 10px; overflow: hidden; border: 1px solid #eee;">
+                        <div style="width: @(percent.ToString().Replace(",", "."))%; height: 100%; background: @(percent > 90 ? "#ff3b30" : "var(--primary)"); border-radius: 10px; transition: 1s ease-in-out;"></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div class="label" style="margin: 0;">Цена от</div>
+                        <div style="font-size: 1.4rem; font-weight: 900; color: var(--text-main);">@f.BasePrice.ToString("N2") BYN</div>
+                    </div>
+                    @if (left > 0)
+                    {
+                        <a asp-action="Checkout" asp-route-flightId="@f.Id" class="btn-save" style="padding: 15px 30px; font-size: 0.75rem;">ВЫБРАТЬ</a>
+                    }
+                    else
+                    {
+                        <button class="btn-cancel" disabled style="padding: 15px 30px; font-size: 0.75rem; opacity: 0.5;">SOLD OUT</button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

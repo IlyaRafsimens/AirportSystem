@@ -1,0 +1,70 @@
+﻿#nullable disable
+@{
+    ViewData["Title"] = "Аналитика терминала";
+    var loadData = ViewBag.LoadData as Dictionary<string, double>;
+}
+
+<div style="margin-bottom: 50px; animation: fadeIn 0.8s ease-out;">
+    <p style="color: var(--primary); font-weight: 800; letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase;">Системный мониторинг</p>
+    <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin: 0;">Аналитика терминала</h1>
+</div>
+
+<!-- ВЕРХНИЕ КАРТОЧКИ СТАТИСТИКИ -->
+<div class="bento-grid" style="grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px;">
+
+    <div class="card-premier" style="text-align: center; background: white;">
+        <div class="label">Пассажиропоток</div>
+        <div style="font-size: 4rem; font-weight: 900; color: var(--primary); margin: 10px 0;">@ViewBag.TotalPassengers</div>
+        <div style="font-size: 0.8rem; font-weight: 700; color: #34C759;">● Активные сессии</div>
+    </div>
+
+    <div class="card-premier" style="text-align: center; background: white;">
+        <div class="label">Активные рейсы</div>
+        <div style="font-size: 4rem; font-weight: 900; color: var(--text-main); margin: 10px 0;">@ViewBag.TotalFlights</div>
+        <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">В расписании</div>
+    </div>
+
+    <div class="card-premier" style="text-align: center; background: white;">
+        <div class="label">Задержки</div>
+        <div style="font-size: 4rem; font-weight: 900; color: #ff3b30; margin: 10px 0;">@ViewBag.DelayedCount</div>
+        <div style="font-size: 0.8rem; font-weight: 700; color: #ff3b30;">⚠️ Требуют внимания</div>
+    </div>
+
+</div>
+
+<!-- ГРАФИКИ ЗАГРУЗКИ -->
+<div class="card-premier" style="background: white; padding: 45px; margin-bottom: 40px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+        <h3 style="font-weight: 900; font-size: 1.5rem; letter-spacing: -1px;">Загрузка бортов (%)</h3>
+        <div style="font-weight: 800; font-size: 0.7rem; color: var(--text-dim); background: #F5F5F7; padding: 8px 15px; border-radius: 10px;">LIVE UPDATE</div>
+    </div>
+
+    <div style="display: grid; gap: 25px;">
+        @if (loadData != null)
+        {
+            foreach (var item in loadData)
+            {
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 800; font-size: 0.9rem;">
+                        <span>Рейс @item.Key</span>
+                        <span style="color: var(--primary);">@Math.Round(item.Value, 1)%</span>
+                    </div>
+                    <div style="width: 100%; height: 12px; background: #F0F4F8; border-radius: 10px; overflow: hidden; border: 1px solid rgba(0,0,0,0.03);">
+                        <div style="width: @item.Value.ToString().Replace(",", ".")%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 10px; transition: 1s ease-out;"></div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!-- КАРТОЧКА ВЫРУЧКИ -->
+<div class="card-premier" style="background: #1d1d1f; color: white; display: flex; justify-content: space-between; align-items: center; padding: 50px;">
+    <div>
+        <div style="font-size: 0.7rem; font-weight: 800; opacity: 0.5; text-transform: uppercase; letter-spacing: 2px;">Общая финансовая выручка</div>
+        <div style="font-size: 3rem; font-weight: 900; margin-top: 5px;">@ViewBag.TotalRevenue.ToString("N2") <span style="font-size: 1.5rem; opacity: 0.6;">BYN</span></div>
+    </div>
+    <div style="text-align: right;">
+        <a asp-action="Tickets" class="btn-save" style="background: white; color: black !important; padding: 15px 30px; border-radius: 15px; font-size: 0.8rem;">ОТЧЕТ ПО ПРОДАЖАМ</a>
+    </div>
+</div>

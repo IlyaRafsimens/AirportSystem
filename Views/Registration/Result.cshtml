@@ -1,0 +1,23 @@
+﻿@model AirportSystem.Models.Ticket
+@{
+    ViewData["Title"] = "Успех";
+}
+
+<div style="text-align: center; margin-top: 50px;">
+    <div style="width: 80px; height: 80px; background: #10b981; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 20px;">✓</div>
+    <h1 style="font-weight: 800;">Регистрация пройдена!</h1>
+    <p style="color: var(--text-muted); margin-bottom: 40px;">@ViewBag.Message</p>
+
+    <div class="card" style="max-width: 500px; margin: 0 auto; padding: 30px; text-align: left; border-radius: 30px;">
+        <h4 style="margin-bottom: 15px; color: var(--primary);">ПОСАДОЧНЫЙ ТАЛОН</h4>
+        <p>Пассажир: <strong>@Model.Passenger.FullName</strong></p>
+        <p>Рейс: <strong>@Model.Flight.FlightNumber</strong></p>
+        <p>Место: <strong style="font-size: 1.5rem; color: var(--primary);">@Model.SeatNumber</strong></p>
+        <p>Выход (Gate): <strong>@Model.Flight.Gate</strong></p>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <a href="/" class="card" style="display:inline-block; padding:15px 40px; background:var(--bg-app); text-decoration:none; color:var(--text-main); font-weight:800; border-radius:20px;">НА ГЛАВНУЮ</a>
+        <a asp-controller="Booking" asp-action="Print" asp-route-id="@Model.Id" class="card" style="display:inline-block; padding:15px 40px; background:var(--primary); text-decoration:none; color:#fff; font-weight:800; border-radius:20px; margin-left:15px;">ПЕЧАТЬ PDF</a>
+    </div>
+</div>

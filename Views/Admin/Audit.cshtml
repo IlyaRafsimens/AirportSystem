@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AirportSystem.Models.AuditLog>
+@{
+    ViewData["Title"] = "Журнал аудита";
+}
+
+<div style="margin-bottom: 50px;">
+    <p class="label" style="color: var(--primary)">Безопасность системы</p>
+    <h1>Журнал событий</h1>
+</div>
+
+<div class="card-premier" style="padding: 0; overflow: hidden; background: white;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #FAFAFA; border-bottom: 1px solid var(--border);">
+                <th style="padding: 20px 30px;">Время</th>
+                <th>Пользователь</th>
+                <th>Роль</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in Model)
+            {
+                    <tr style="border-bottom: 1px solid #f2f2f7;">
+                        <td style="padding: 20px 30px; font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--text-dim);">@log.Timestamp.ToString("G")</td>
+                        <td style="font-weight: 800;">@log.UserEmail</td>
+                        <td>
+                            <span style="background: #F0F4F8; padding: 5px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800;">@log.Role.ToUpper()</span>
+                        </td>
+                        <td style="font-weight: 600; color: #444;">@log.Action</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>

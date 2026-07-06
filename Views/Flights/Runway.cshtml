@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AirportSystem.Models.Runway>
+@{
+    ViewData["Title"] = "Управление полосами";
+    var flights = ViewBag.Flights as List<AirportSystem.Models.Flight>;
+}
+
+<h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin-bottom: 50px;">Flight Deck Control</h1>
+
+<div class="bento-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
+    @foreach (var r in Model)
+    {
+        var color = r.Status == RunwayStatus.Free ? "#34C759" : (r.Status == RunwayStatus.Occupied ? "#FF9500" : "#FF3B30");
+        <div class="card-premier" style="background: white; border-top: 6px solid @color; padding: 35px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h3 style="font-family: 'JetBrains Mono'; font-weight: 800; font-size: 1.4rem;">@r.Name</h3>
+                <span style="background: @(color + "15"); color: @color; padding: 6px 12px; border-radius: 10px; font-weight: 900; font-size: 0.7rem; border: 1px solid @(color + "20");">
+                    ● @r.Status.ToString().ToUpper()
+                </span>
+            </div>
+
+            <p style="color: var(--text-dim); font-size: 0.85rem; font-weight: 700; margin-bottom: 25px; height: 40px;">
+                @(r.Status == RunwayStatus.Occupied ? $"Борт на полосе: {r.CurrentFlight}" : "Полоса готова к приему трафика")
+            </p>
+
+            <form asp-action="UpdateRunway" method="post" style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="hidden" name="id" value="@r.Id" />
+
+                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+                    <select name="status" class="input-ui" style="padding: 12px; font-size: 0.8rem; margin: 0;">
+                        <option value="Free">СВОБОДНА</option>
+                        <option value="Occupied">ЗАНЯТА</option>
+                        <option value="Maintenance">ТЕХ. РАБОТЫ</option>
+                    </select>
+
+                    <select name="flightNum" class="input-ui" style="padding: 12px; font-size: 0.8rem; margin: 0;">
+                        <option value="">-- Рейс --</option>
+                        @foreach (var f in flights)
+                        {
+                            <option value="@f.FlightNumber">@f.FlightNumber (@f.Destination)</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-save" style="width: 100%; padding: 15px; font-size: 0.8rem;">ОБНОВИТЬ СОСТОЯНИЕ</button>
+            </form>
+        </div>
+    }
+</div>

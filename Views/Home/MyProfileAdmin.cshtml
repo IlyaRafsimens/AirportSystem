@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Центр управления";
+}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px;">
+    <div>
+        <p class="label" style="color: var(--primary)">Root Administrator Access</p>
+        <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin: 0;">Узел управления</h1>
+    </div>
+    <div style="background: #34C75915; color: #34C759; padding: 12px 30px; border-radius: 20px; font-weight: 900; font-size: 0.8rem; border: 1px solid #34C75930; display: flex; align-items: center; gap: 10px;">
+        <div style="width: 8px; height: 8px; background: #34C759; border-radius: 50%;" class="pulse"></div>
+        SYSTEM: OPERATIONAL
+    </div>
+</div>
+
+<div class="bento-grid" style="grid-template-columns: repeat(3, 1fr); gap: 30px;">
+
+    <!-- ФИНАНСЫ -->
+    <div class="card-premier" style="background: #1d1d1f; color: white;">
+        <div class="label" style="color: rgba(255,255,255,0.4)">Общая выручка</div>
+        <div style="font-size: 2.5rem; font-weight: 900; margin: 20px 0;">@ViewBag.TotalRevenue.ToString("N2") <span style="font-size: 1.2rem; opacity: 0.5;">BYN</span></div>
+        <a asp-controller="Admin" asp-action="Report" style="color: var(--accent); font-weight: 800; font-size: 0.8rem; text-decoration: none;">ГЕНЕРИРОВАТЬ ОТЧЕТ →</a>
+    </div>
+
+    <!-- МОНИТОР НАГРУЗКИ -->
+    <div class="card-premier" style="background: white;">
+        <div class="label">Нагрузка на API</div>
+        <div style="display: flex; align-items: flex-end; gap: 6px; height: 70px; margin-top: 20px;">
+            <div style="width: 15%; height: 30%; background: #E8F0FE; border-radius: 6px;"></div>
+            <div style="width: 15%; height: 50%; background: #E8F0FE; border-radius: 6px;"></div>
+            <div style="width: 15%; height: 85%; background: var(--primary); border-radius: 6px;"></div>
+            <div style="width: 15%; height: 40%; background: #E8F0FE; border-radius: 6px;"></div>
+            <div style="width: 15%; height: 60%; background: #E8F0FE; border-radius: 6px;"></div>
+            <div style="width: 15%; height: 75%; background: var(--primary); border-radius: 6px;"></div>
+        </div>
+        <p style="margin-top: 20px; font-weight: 800; font-size: 0.75rem; color: #34C759;">STABLE: 14ms response time</p>
+    </div>
+
+    <!-- БАЗА ДАННЫХ -->
+    <div class="card-premier" style="background: white;">
+        <div class="label">База данных SQLite</div>
+        <div style="font-size: 2.2rem; font-weight: 900; margin: 15px 0; color: var(--text-main);">AIRPORT.DB</div>
+        <p style="color: var(--text-dim); font-size: 0.8rem; font-weight: 700;">Статус: Оптимизирована</p>
+        <p style="color: var(--text-dim); font-size: 0.8rem; font-weight: 700;">Размер: 1.2 MB</p>
+    </div>
+</div>
+
+<!-- НИЖНЯЯ ПАНЕЛЬ -->
+<div style="margin-top: 30px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px;">
+    <div class="card-premier" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 style="font-weight: 900; margin-bottom: 5px;">Безопасность узла</h3>
+            <p style="color: var(--text-dim); font-size: 0.85rem;">Всего заблокировано: <strong>@ViewBag.BannedCount</strong> идентификаторов</p>
+        </div>
+        <a asp-controller="Admin" asp-action="Blacklist" class="btn-premier" style="font-size: 0.75rem; padding: 15px 30px; background: #ff3b30;">СТОП-ЛИСТ</a>
+    </div>
+
+    <div class="card-premier" style="display: flex; flex-direction: column; justify-content: center;">
+        <h3 style="font-weight: 900; margin-bottom: 5px;">Пользователи</h3>
+        <p style="color: var(--text-dim); font-size: 0.85rem;">Зарегистрировано: <strong>@ViewBag.TotalUsers</strong> чел.</p>
+    </div>
+</div>
+
+<style>
+    .pulse {
+        animation: pulse-animation 2s infinite;
+    }
+
+    @@keyframes pulse-animation {
+        0% {
+            transform: scale(0.95);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(0.95);
+            opacity: 0.5;
+        }
+    }
+</style>

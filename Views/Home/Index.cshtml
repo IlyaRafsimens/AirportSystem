@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Главный терминал";
+}
+
+<div style="margin-bottom: 60px; animation: fadeIn 0.8s ease-out;">
+    <p style="color: var(--primary); font-weight: 800; letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase;">Система управления AIRPORT.OS</p>
+    <h1 style="font-size: 5rem; font-weight: 900; letter-spacing: -5px; margin: 0; line-height: 0.9;">Главный<br />терминал</h1>
+</div>
+
+<div class="bento-grid" style="grid-template-columns: 1.5fr 1fr; grid-template-rows: auto auto; gap: 30px;">
+
+    <!-- БЛОК 1: ПРИВЕТСТВИЕ / СТАТУС -->
+    <div class="card-premier" style="grid-row: span 2; background: linear-gradient(135deg, var(--primary) 0%, #5AC8FA 100%); color: white; display: flex; flex-direction: column; justify-content: space-between; border: none; position: relative; overflow: hidden;">
+        <div style="position: absolute; right: -50px; top: -50px; opacity: 0.1;">
+            <svg width="400" height="400" viewBox="0 0 24 24" fill="white"><path d="M21 16.5l-8-4.5V3.5c0-.8-.7-1.5-1.5-1.5S10 2.7 10 3.5V12l-8 4.5V18l8-2.5V20l-2 1.5V23l3.5-1 3.5 1v-1.5L13 20v-4.5l8 2.5v-1.5z" /></svg>
+        </div>
+
+        <div style="position: relative; z-index: 2;">
+            <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -2px;">
+                @(User.Identity.IsAuthenticated ? $"С возвращением, {User.Identity.Name.Split('@')[0]}!" : "Добро пожаловать")
+            </h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; max-width: 80%; line-height: 1.5; font-weight: 500;">
+                @(User.Identity.IsAuthenticated
+                    ? "Ваш доступ к управлению узлом подтвержден. Все системы работают в штатном режиме."
+                    : "Для получения доступа к бронированию и регистрации рейсов необходимо пройти идентификацию в системе.")
+            </p>
+        </div>
+
+        <div style="position: relative; z-index: 2; margin-top: 40px;">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-action="MyProfile" class="btn-white" style="box-shadow: 0 15px 30px rgba(0,0,0,0.15);">ПЕРЕЙТИ В КАБИНЕТ</a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn-white" style="box-shadow: 0 15px 30px rgba(0,0,0,0.15); margin-right: 15px;">ВОЙТИ</a>
+                <a asp-controller="Account" asp-action="Register" style="color: white; font-weight: 800; font-size: 0.9rem; text-decoration: underline;">Регистрация</a>
+            }
+        </div>
+    </div>
+
+    <!-- БЛОК 2: ОНЛАЙН-ТАБЛО -->
+    <div class="card-premier" style="background: white;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="width: 50px; height: 50px; background: #f0f7ff; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <span style="color: #34C759; font-weight: 800; font-size: 0.7rem; letter-spacing: 1px;">LIVE</span>
+        </div>
+        <h3 style="font-weight: 900; margin-bottom: 10px;">Онлайн-табло</h3>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.4;">Просмотр актуальных рейсов, гейтов и статусов вылета в реальном времени.</p>
+        <a asp-controller="Board" asp-action="Index" style="color: var(--primary); font-weight: 800; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
+            ОТКРЫТЬ МОНИТОРИНГ
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+        </a>
+    </div>
+
+    <!-- БЛОК 3: ИНФОРМАЦИЯ -->
+    <div class="card-premier" style="background: white;">
+        <h3 style="font-weight: 900; margin-bottom: 15px;">Smart Check-in</h3>
+        <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.4;">
+            Забудьте о очередях. Регистрируйте багаж и выбирайте место в салоне прямо через наш терминал за 24 часа до вылета.
+        </p>
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <div style="background: #F5F5F7; padding: 10px 15px; border-radius: 12px; font-size: 0.7rem; font-weight: 800; color: var(--text-main);">QR-BILETS</div>
+            <div style="background: #F5F5F7; padding: 10px 15px; border-radius: 12px; font-size: 0.7rem; font-weight: 800; color: var(--text-main);">AUTO-LUGGAGE</div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .btn-white {
+        background: white;
+        color: var(--primary);
+        padding: 18px 35px;
+        border-radius: 20px;
+        font-weight: 800;
+        display: inline-block;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        cursor: pointer;
+    }
+
+        .btn-white:hover {
+            transform: scale(1.05);
+            filter: brightness(1.05);
+        }
+</style>

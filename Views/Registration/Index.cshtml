@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Поиск";
+}
+
+<div style="max-width: 600px; margin: 100px auto; text-align: center;">
+    <h1 style="margin-bottom: 10px;">Регистрация</h1>
+    <p style="color: var(--text-muted); margin-bottom: 40px;">Введите номер билета для начала оформления багажа</p>
+
+    <div class="card">
+        <form asp-action="Search" method="post">
+            <input type="text" name="ticketNumber" placeholder="TKT-000000"
+                   style="width: 100%; padding: 20px; border-radius: 20px; border: 2px solid var(--bg-app); font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 20px; color: var(--primary);">
+
+            <button type="submit" class="card" style="width: 100%; background: var(--primary); color: #fff; border: 0; padding: 20px; font-weight: 800; font-size: 1.1rem; cursor: pointer;">НАЙТИ БИЛЕТ</button>
+        </form>
+        @if (ViewBag.Error != null)
+        {
+            <p style="color: #ef4444; margin-top: 20px; font-weight: 700;">@ViewBag.Error</p>
+        }
+    </div>
+</div>

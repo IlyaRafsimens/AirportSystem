@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AirportSystem.Models.Flight>
+@{
+    var isEn = System.Globalization.CultureInfo.CurrentCulture.Name == "en";
+    ViewData["Title"] = isEn ? "Live Board" : "Онлайн-табло";
+    var weather = ViewBag.Weather as Dictionary<string, (string icon, string temp, bool deIcing)>;
+}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+    <h1>@(isEn ? "Live Board" : "Онлайн-табло")</h1>
+    <div id="clock" style="font-family: 'JetBrains Mono'; font-weight: 800; font-size: 1.5rem; color: var(--primary);"></div>
+</div>
+
+<div class="card-premier" style="padding: 0; overflow: hidden; background: white;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="color: var(--text-dim); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; background: #fafafa; border-bottom: 1px solid var(--border);">
+                <th style="padding: 20px 30px;">@(isEn ? "Flight" : "Рейс")</th>
+                <th>@(isEn ? "Destination" : "Назначение")</th>
+                <th>@(isEn ? "Time" : "Вылет")</th>
+                <th>@(isEn ? "Gate" : "Гейт")</th>
+                <th>@(isEn ? "Status" : "Статус")</th>
+                <th style="padding-right: 30px;">@(isEn ? "Weather" : "Погода")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in Model)
+            {
+                <tr style="border-bottom: 1px solid #f2f2f7;">
+                    <td style="padding: 25px 30px; font-family: 'JetBrains Mono'; font-weight: 800; color: var(--primary);">@f.FlightNumber</td>
+                    <td style="font-weight: 800; font-size: 1.1rem;">@f.Destination.ToUpper()</td>
+                    <td>@f.ScheduledDeparture.ToString("HH:mm")</td>
+                    <td><span style="background: #F0F4F8; padding: 5px 12px; border-radius: 10px; font-weight: 800;">@f.Gate</span></td>
+                    <td>
+                        <span style="font-weight: 900; font-size: 0.75rem;">● @f.Status.ToString().ToUpper()</span>
+                    </td>
+                    <td style="padding-right: 30px;">
+                        @if (weather != null && weather.ContainsKey(f.Destination))
+                        {
+                            var w = weather[f.Destination];
+                            <span style="font-weight: 800;">@w.icon @w.temp</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    setInterval(() => {
+        const el = document.getElementById('clock');
+        if(el) el.innerText = new Date().toLocaleTimeString();
+    }, 1000);
+</script>

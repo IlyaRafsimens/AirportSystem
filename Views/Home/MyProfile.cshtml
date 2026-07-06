@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AirportSystem.Models.Ticket>
+@{
+    var isEn = System.Globalization.CultureInfo.CurrentCulture.Name == "en";
+    ViewData["Title"] = isEn ? "My Profile" : "Мой кабинет";
+}
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px;">
+    <div>
+        <p class="label" style="color: var(--primary)">@(isEn ? "PASSENGER ACCESS" : "ДОСТУП ПАССАЖИРА")</p>
+        <h1>@(isEn ? "My Terminal" : "Мой терминал")</h1>
+    </div>
+    <a asp-controller="Booking" asp-action="Index" class="btn-premier">@(isEn ? "BOOK FLIGHT" : "ЗАБРОНИРОВАТЬ РЕЙС")</a>
+</div>
+
+<div class="bento-grid" style="grid-template-columns: 1fr 350px; gap: 40px;">
+    <div>
+        <h3 class="label" style="margin-bottom: 25px;">@(isEn ? "My Boarding Passes" : "Мои билеты")</h3>
+        @foreach (var t in Model)
+        {
+            <div class="ticket-card" style="@(t.Status == AirportSystem.Models.TicketStatus.Cancelled ? "opacity:0.5; filter:grayscale(1);" : "")">
+                <div class="ticket-main">
+                    <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px; font-size: 0.7rem; margin-bottom: 15px;">@t.Flight.FlightNumber // @t.Flight.Airline</div>
+                    <div style="font-size: 2.2rem; font-weight: 900;">@t.Flight.Destination</div>
+                    <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-dim); margin-top: 10px;">
+                        @(isEn ? "STATUS" : "СТАТУС"): @t.Status.ToString().ToUpper()
+                    </div>
+                </div>
+                <div class="perforation"></div>
+                <div class="ticket-stub">
+                    <div class="label">@(isEn ? "SEAT" : "МЕСТО")</div>
+                    <div style="font-size: 3rem; font-weight: 900;">@t.SeatNumber</div>
+                    @if (t.Status != AirportSystem.Models.TicketStatus.Cancelled)
+                    {
+                        <a asp-controller="Booking" asp-action="Print" asp-route-id="@t.Id" style="color:white; font-weight:800; font-size:0.7rem; text-decoration:underline;">@(isEn ? "PRINT" : "ПЕЧАТЬ")</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="card-premier">
+        <h3 style="font-weight: 800; margin-bottom: 25px;">@(isEn ? "Settings" : "Настройки")</h3>
+        <a asp-controller="Account" asp-action="ChangePassword" class="btn-cancel" style="width: 100%; margin-bottom: 12px; font-size: 0.8rem;">@(isEn ? "CHANGE PASSWORD" : "ИЗМЕНИТЬ ПАРОЛЬ")</a>
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            <button type="submit" class="btn-cancel" style="width: 100%; color: #ff3b30 !important; background:#fff5f5;">@(isEn ? "LOGOUT" : "ВЫЙТИ")</button>
+        </form>
+    </div>
+</div>

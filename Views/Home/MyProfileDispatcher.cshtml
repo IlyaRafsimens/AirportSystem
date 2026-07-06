@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Кабинет Диспетчера";
+}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px;">
+    <div>
+        <p style="color: #FF9500; font-weight: 800; letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase;">Система мониторинга</p>
+        <h1 style="font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; margin: 0;">Рабочая панель</h1>
+    </div>
+</div>
+
+<div class="bento-grid" style="grid-template-columns: 1.5fr 1fr; gap: 30px;">
+
+    <!-- ЛЕВАЯ КОЛОНКА: СТАТУСЫ -->
+    <div style="display: grid; gap: 30px;">
+        <div class="card-premier" style="background: #1d1d1f; color: white;">
+            <h2 style="font-weight: 900; margin-bottom: 10px;">Статус узла: АКТИВЕН</h2>
+            <p style="opacity: 0.7;">Смена: Дневная | Ответственный: @User.Identity.Name</p>
+            <div style="margin-top: 30px; display: flex; gap: 15px;">
+                <a asp-controller="Flights" asp-action="Index" class="btn-save" style="background: var(--primary); font-size: 0.8rem;">РЕЙСЫ</a>
+                <a asp-controller="Flights" asp-action="Runway" class="btn-save" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem;">ПОЛОСЫ</a>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div class="card-premier" style="background: white; text-align: center;">
+                <div class="label">Активные борты</div>
+                <div style="font-size: 3.5rem; font-weight: 900; color: var(--primary);">@ViewBag.ActiveFlights</div>
+            </div>
+            <div class="card-premier" style="background: white; text-align: center;">
+                <div class="label">Загрузка полос</div>
+                <div style="font-size: 3.5rem; font-weight: 900; color: #FF9500;">@ViewBag.BusyRunways</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПРАВАЯ КОЛОНКА: РАДАР -->
+    <div class="card-premier" style="background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+        <div class="label" style="position: absolute; top: 30px; left: 35px;">SkyScan v2.0</div>
+
+        <!-- CSS РАДАР -->
+        <div class="radar">
+            <div class="sweep"></div>
+            <div class="point" style="top: 20%; left: 30%;"></div>
+            <div class="point" style="top: 60%; left: 70%;"></div>
+            <div class="point" style="top: 40%; left: 50%;"></div>
+        </div>
+
+        <p style="margin-top: 30px; font-weight: 800; font-size: 0.8rem; color: #34C759; letter-spacing: 1px;">ПОИСК ОБЪЕКТОВ...</p>
+    </div>
+
+</div>
+
+<style>
+    .radar {
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        border: 2px solid #E5E5E7;
+        position: relative;
+        background: radial-gradient(circle, #f9f9fb 0%, #f0f0f5 100%);
+        overflow: hidden;
+    }
+
+        .radar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #E5E5E7;
+        }
+
+        .radar::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: #E5E5E7;
+        }
+
+    .sweep {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(0, 122, 255, 0.2) 0%, transparent 50%);
+        transform-origin: top left;
+        animation: rotate-radar 4s linear infinite;
+    }
+
+    .point {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: #007AFF;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #007AFF;
+        animation: blink-point 2s infinite;
+    }
+
+    @@keyframes rotate-radar {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes blink-point {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.3;
+        }
+    }
+</style>

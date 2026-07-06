@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AirportSystem.Models.Ticket>
+#nullable disable
+@{
+    ViewData["Title"] = "Реестр билетов";
+}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+    <div>
+        <p style="color: var(--primary); font-weight: 800; letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase;">Система учета</p>
+        <h1 style="font-size: 3rem; font-weight: 900; letter-spacing: -3px; margin: 0;">Реестр билетов</h1>
+    </div>
+    <div style="background: white; padding: 15px 30px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); text-align: center;">
+        <div class="label" style="margin:0;">Всего выдано</div>
+        <div style="font-size: 1.5rem; font-weight: 900; color: var(--primary);">@Model.Count()</div>
+    </div>
+</div>
+
+<div class="card-premier" style="padding: 0; overflow: hidden; background: white;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #FAFAFA; border-bottom: 1px solid var(--border);">
+                <th style="padding: 20px 30px; text-align: left;">ID билета</th>
+                <th style="padding: 20px; text-align: left;">Пассажир</th>
+                <th style="padding: 20px; text-align: left;">Рейс</th>
+                <th style="padding: 20px; text-align: left;">Класс</th>
+                <th style="padding: 20px; text-align: left;">Статус</th>
+                <th style="padding: 20px 30px; text-align: right;">Цена (BYN)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="border-bottom: 1px solid #f2f2f7; transition: 0.3s;" onmouseover="this.style.background='#fcfcfc'" onmouseout="this.style.background='white'">
+                    <td style="padding: 25px 30px; font-family: 'JetBrains Mono'; font-weight: 800; color: var(--primary);">
+                        @item.TicketNumber
+                    </td>
+                    <td style="padding: 20px;">
+                        <div style="font-weight: 800; font-size: 1rem;">@item.Passenger.FullName.ToUpper()</div>
+                        <div style="font-size: 0.75rem; color: var(--text-dim); font-weight: 600; margin-top: 4px;">🆔 @item.Passenger.PassportNumber</div>
+                    </td>
+                    <td style="padding: 20px;">
+                        <div style="font-weight: 800; color: var(--text-main);">@item.Flight.FlightNumber</div>
+                        <div style="font-size: 0.75rem; color: var(--primary); font-weight: 700;">📍 @item.Flight.Destination</div>
+                    </td>
+                    <td style="padding: 20px;">
+                        <span style="background: #F0F4F8; padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; color: var(--text-dim);">
+                            @item.Class.ToString().ToUpper()
+                        </span>
+                    </td>
+                    <td style="padding: 20px;">
+                        @{
+                            var col = item.Status == AirportSystem.Models.TicketStatus.Cancelled ? "#FF3B30" : (item.Status == AirportSystem.Models.TicketStatus.Registered ? "#34C759" : "#007AFF");
+                        }
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 8px; height: 8px; border-radius: 50%; background: @col;"></div>
+                            <span style="color: @col; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px;">@item.Status.ToString().ToUpper()</span>
+                        </div>
+                    </td>
+                    <td style="padding: 25px 30px; text-align: right; font-weight: 900; color: var(--text-main); font-size: 1.1rem;">
+                        @item.FinalPrice.ToString("N2")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

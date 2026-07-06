@@ -1,0 +1,51 @@
+﻿@model IEnumerable<AirportSystem.Models.Ticket>
+@{
+    ViewData["Title"] = "Финансовый отчет";
+}
+
+<div class="no-print" style="margin-bottom: 50px; display: flex; justify-content: space-between; align-items: center;">
+    <h1>Отчетность</h1>
+    <button onclick="window.print()" class="btn-save">СКАЧАТЬ ОТЧЕТ (PDF)</button>
+</div>
+
+<div id="printable-report" class="card-premier" style="background: white; padding: 60px;">
+    <div style="text-align: center; margin-bottom: 60px;">
+        <h1 style="font-size: 2.5rem; letter-spacing: -2px;">ФИНАНСОВЫЙ ОТЧЕТ ТЕРМИНАЛА</h1>
+        <p style="font-weight: 800; color: var(--text-dim);">Сформирован: @DateTime.Now.ToString("f")</p>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid #000;">
+                <th style="padding: 15px; text-align: left;">Номер билета</th>
+                <th style="padding: 15px; text-align: left;">Пассажир</th>
+                <th style="padding: 15px; text-align: left;">Рейс</th>
+                <th style="padding: 15px; text-align: right;">Сумма (BYN)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 15px; font-family: 'JetBrains Mono';">@t.TicketNumber</td>
+                        <td style="padding: 15px;">@t.Passenger.FullName</td>
+                        <td style="padding: 15px;">@t.Flight.FlightNumber</td>
+                        <td style="padding: 15px; text-align: right; font-weight: 800;">@t.FinalPrice.ToString("N2")</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+
+    <div style="margin-top: 50px; text-align: right; border-top: 2px solid #000; padding-top: 20px;">
+        <h2 style="font-size: 2rem; font-weight: 900;">ИТОГО: @ViewBag.Total.ToString("N2") BYN</h2>
+    </div>
+</div>
+
+<style>
+    @@media print {
+        body { background: white; }
+        aside, .no-print { display: none !important; }
+        main { padding: 0; }
+        .card-premier { box-shadow: none; border: none; padding: 0; }
+    }
+</style>
